@@ -1,0 +1,27 @@
+services:
+  frontend:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
+      
+  backend:
+    build: ./flask
+    container_name: backend
+    ports:
+      - "9091:9001"
+    volumes:
+      - vol_ex_flask:/app
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - vol_ex_flask:/data/db
+volumes:
+  vol_ex_flask:
